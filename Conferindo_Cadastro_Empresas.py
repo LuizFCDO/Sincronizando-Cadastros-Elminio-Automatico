@@ -3,6 +3,8 @@
 
 from Funcoes_Cadastro_Empresas import *
 
+#teste
+
 ################################### Encerrando área de trabalho remota ########################################################
 
 fechandoAreaRemota()
