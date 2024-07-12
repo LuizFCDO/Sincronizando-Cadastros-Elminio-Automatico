@@ -16,6 +16,7 @@ pat.alert('O código vai começar, não toque no teclado ou no mouse enquanto is
 abrindoAreaRemota() # Abre area de trabalho remota, claro kkkk
 fechandoApps() # Fecha no máximo 4 coisas abertas na area remota
 
+
 abrindoCigoELogin() # Abrindo sistema cigo e fazendo o login
 
 janelaConfirma(13,fechandoAreaRemota,abrindoAreaRemota,fechandoApps,abrindoCigoELogin)
@@ -29,6 +30,8 @@ exportandoParaExcel() # Exportar dados para formato excel
 copiandoArquivoExcel() # Abrindo local do arquivo exportado e copiando arquivo
 
 colandoExcelEmTrabalhoLoja(grupo) # Colando arquivo na pasta TRABALHO LOJA e renomeando
+
+janelaConfirma(0, exportandoParaExcel, copiandoArquivoExcel, [colandoExcelEmTrabalhoLoja,grupo])
 
 ########################## Análise de dados utilizando pandas #################################################################
 
@@ -67,12 +70,11 @@ time.sleep(5)
 
 abrindoProduto() # Abrindo aba de produto no cigo
 
-for cod in falta_wag:
-    pesquisandoEmProduto(cod,pesquisa=True)
-    cadastroEmpresaProduto('wag')
-for cod in falta_elm:
-    pesquisandoEmProduto(cod,pesquisa=True)
-    cadastroEmpresaProduto('elm')
-for cod in falta_soc:
-    pesquisandoEmProduto(cod,pesquisa=True)
-    cadastroEmpresaProduto('soc')
+janelaConfirma(5, fechandoAreaRemota, [time.sleep, 3], [pat.keyDown, 'alt'], [pat.press, 'f4'], [pat.keyUp, 'alt'])
+
+pat.PAUSE = 0.75
+pat.MINIMUM_DURATION = 0.35
+
+igualandoCadastros(falta_wag,falta_elm,falta_soc)
+
+janelaConfirma(0, [igualandoCadastros,falta_wag,falta_elm,falta_soc])

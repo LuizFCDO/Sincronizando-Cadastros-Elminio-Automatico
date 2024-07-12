@@ -152,11 +152,12 @@ def colandoExcelEmTrabalhoLoja(grupo):
     pat.press('win')
     pat.write('TRABALHO LOJA')
     pat.press('enter')
+    time.sleep(2)
     pat.press('down')
-    time.sleep(1)
     pat.hotkey('ctrl', 'v')
     time.sleep(10)
     pat.press('f2')
+    time.sleep(3)
     pat.write('PRODUTOS ' + grupo + ' - ' + dataParaSalvamento)
     pat.press('enter')
 
@@ -186,28 +187,43 @@ def cadastroEmpresaProduto(empresa):
     time.sleep(4)
     pat.moveTo(cord['grup alt empr prod']) # selecionando grupo, dentro de alteração empresa produto
     pat.click()
-    time.sleep(1)
+    time.sleep(3)
     pat.keyDown('ctrl') # copiando grupo do produto para novo cadastro
-    pat.press('c')
+    pat.press('c', presses=3, interval=0.3)
     pat.keyUp('ctrl')
     pat.moveTo(cord['cancel alt empr prod']) # selecionando cancelar, dentro de alteração empresa produto
+    time.sleep(2)
     pat.click()
+    time.sleep(2)
     pat.press('n')
+    time.sleep(1)
 
     # adicionando nova empresa
     pat.moveTo(cord['adic empr prod']) # selecionando adicionar empresa produto
     pat.click()
-    time.sleep(4)
+    time.sleep(6)
     pat.write(empresa) # digitando a empresa para cadastro do produto
     pat.press('enter')
     pat.press('enter')
-    time.sleep(5)
+    time.sleep(9)
     pat.keyDown('ctrl') # colando o grupo do produto no novo cadastro
-    pat.press('v')
+    pat.press('v', presses=3, interval=0.3)
     pat.keyUp('ctrl')
-    pat.sleep(1)
-    pat.press('enter', presses=4, interval=0.5)
+    pat.sleep(3)
+    pat.press('enter', presses=4, interval=1)
     pat.write('mercadoria') # escolhendo o tipo do produto
     pat.press('enter')
-    pat.press('f11') # salvando novo cadastro
     time.sleep(3)
+    pat.press('f5') # salvando novo cadastro
+    time.sleep(6)
+
+def igualandoCadastros(falta_wag, falta_elm, falta_soc):
+    for cod in falta_wag:
+        pesquisandoEmProduto(cod,pesquisa=True)
+        cadastroEmpresaProduto('wag')
+    for cod in falta_elm:
+        pesquisandoEmProduto(cod,pesquisa=True)
+        cadastroEmpresaProduto('elm')
+    for cod in falta_soc:
+        pesquisandoEmProduto(cod,pesquisa=True)
+        cadastroEmpresaProduto('soc')
