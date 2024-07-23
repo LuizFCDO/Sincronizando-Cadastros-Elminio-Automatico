@@ -5,15 +5,30 @@
 # pat.click()
 # time.sleep(2)
 
-def som(a, b):
-    return a + b
+from tkinter import Tk, Button
 
-lista = [som, 2, 3]
+confirma = 2
+print(confirma)
 
-def impr(lis):
-        tupla = tuple(lis[1:])
-        return lis[0]
+def janelaConfirma():
+    def botaoConfirmado():
+        global confirma
+        confirma = 1
+        janelaConf.destroy()
 
-print(impr(lista))
+    def botaoRepete():
+        global confirma
+        confirma = 0
+        janelaConf.destroy()
+    
+    janelaConf = Tk()
+    janelaConf.title('Deu certo?')
+    janelaConf.geometry('350x200')
+    botaoConf = Button(janelaConf,text='Exito', command=botaoConfirmado)
+    botaoConf.place(x=50,y=50)
+    botaoRep = Button(janelaConf, text='Repete processo', command=botaoRepete)
+    botaoRep.place(x=100,y=50)
+    janelaConf.mainloop()
 
-# [print(i) for i in lista[1:]]
+janelaConfirma()
+print(confirma)

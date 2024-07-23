@@ -3,6 +3,31 @@
 
 from Funcoes_Cadastro_Empresas import *
 
+############################################ Função para confirmar execução correta ###############################################################
+
+confirma = 0
+
+def janelaConfirma():
+    def botaoConfirmado():
+        global confirma
+        confirma = 1
+        janelaConf.destroy()
+        return confirma
+
+    def botaoRepete():
+        global confirma
+        confirma = 0
+        janelaConf.destroy()
+    
+    janelaConf = Tk()
+    janelaConf.title('Deu certo?')
+    janelaConf.geometry('350x200')
+    botaoConf = Button(janelaConf,text='Exito', command=botaoConfirmado)
+    botaoConf.place(x=50,y=50)
+    botaoRep = Button(janelaConf, text='Repete processo', command=botaoRepete)
+    botaoRep.place(x=100,y=50)
+    janelaConf.mainloop()
+
 ################################### Encerrando área de trabalho remota ########################################################
 
 fechandoAreaRemota()
@@ -18,24 +43,46 @@ fechandoApps() # Fecha no máximo 4 coisas abertas na area remota
 
 
 abrindoCigoELogin() # Abrindo sistema cigo e fazendo o login
+time.sleep(5)
 
-janelaConfirma(13,fechandoAreaRemota,abrindoAreaRemota,fechandoApps,abrindoCigoELogin)
+# janelaConfirma()
+# while confirma == 0:
+#     fechandoAreaRemota()
+#     abrindoAreaRemota()
+#     fechandoApps()
+#     abrindoCigoELogin()
+#     janelaConfirma()
 
 pesquisandoNoPesquisaItem(grupo, pesquisa=True) # Pesquisar grupo de peças
+time.sleep(5)
 
-janelaConfirma(0,[pesquisandoNoPesquisaItem,grupo,True])
+# janelaConfirma()
+# while confirma == 0:
+#     pesquisandoNoPesquisaItem(grupo)
+#     janelaConfirma()
 
 exportandoParaExcel() # Exportar dados para formato excel
 
 copiandoArquivoExcel() # Abrindo local do arquivo exportado e copiando arquivo
 
-colandoExcelEmTrabalhoLoja(grupo) # Colando arquivo na pasta TRABALHO LOJA e renomeando
+arquivo = ('C:/Users/rosky/Desktop/Automações Luiz/Planilhas Sincronizando Cadastros/' + 'PRODUTOS ' + grupo + ' - ' + dataParaSalvamento + '.xls')
+colandoExcelEmTrabalhoLoja(grupo,arquivo) # Colando arquivo na pasta TRABALHO LOJA e renomeando
+time.sleep(5)
 
-janelaConfirma(0, exportandoParaExcel, copiandoArquivoExcel, [colandoExcelEmTrabalhoLoja,grupo])
+# janelaConfirma()
+# while confirma == 0:
+#     abrindoAreaRemota()
+#     time.sleep(3)
+#     pat.keyDown('alt')
+#     pat.press('f4')
+#     pat.keyUp('alt')
+#     time.sleep(5)
+#     exportandoParaExcel()
+#     copiandoArquivoExcel()
+#     colandoExcelEmTrabalhoLoja()
+#     janelaConfirma()
 
 ########################## Análise de dados utilizando pandas #################################################################
-
-arquivo = ('C:/Users/luizf/OneDrive/Desktop/TRABALHO LOJA/' + 'PRODUTOS ' + grupo + ' - ' + dataParaSalvamento + '.xls')
 
 dados_df = pd.read_excel(arquivo,dtype='str')
 
@@ -70,11 +117,18 @@ time.sleep(5)
 
 abrindoProduto() # Abrindo aba de produto no cigo
 
-janelaConfirma(5, fechandoAreaRemota, [time.sleep, 3], [pat.keyDown, 'alt'], [pat.press, 'f4'], [pat.keyUp, 'alt'])
+# janelaConfirma()
+# while confirma == 0:
+#     fechandoAreaRemota()
+#     abrindoAreaRemota()
+#     fechandoApps()
+#     abrindoCigoELogin()
+#     abrindoProduto()
+#     janelaConfirma()
 
 pat.PAUSE = 0.75
 pat.MINIMUM_DURATION = 0.35
 
 igualandoCadastros(falta_wag,falta_elm,falta_soc)
 
-janelaConfirma(0, [igualandoCadastros,falta_wag,falta_elm,falta_soc])
+pat.alert('Fim dos processos!')
