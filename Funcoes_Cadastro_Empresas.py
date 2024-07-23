@@ -2,14 +2,11 @@ import pyautogui as pat
 import time
 from tkinter import Tk, Button # biblioteca para janela de comunicação
 from tkinter import simpledialog # biblioteca para janela de comunicação que recebe informação
-from os import kill # biblioteca para comandos do sistema
+from os import kill, path, remove # biblioteca para comandos do sistema
 import psutil as ps # biblioteca para processos do sistema
 import signal # biblioteca para encerrar processos
 import pandas as pd
 from IPython.display import display # biblioteca com display para data fremes do pandas
-
-#import PosicoesEmpresa # para importar as posições de ponteiro no computador da empresa
-import PosicoesParticular # para importar as posições de ponteiro no computador particular
 
 def pidAreaRemota():
     for proc in ps.process_iter(): # Armazenando pid da área de trabalho remota no pidArea
@@ -36,38 +33,26 @@ def janelaInput():
     janela.mainloop()
     return grupo
 
-def janelaConfirma(tempo,*comandos):
-    def botaoConfirmado():
-        janelaConf.destroy()
-
-    def botaoRepete():
-        for i in comandos:
-            if type(i)==list:
-                if i.len() == 2:
-                    i[0](i[1])
-                elif i.len() == 3:
-                    i[0](i[1], i[2])
-                elif i.len() == 4:
-                    i[0](i[1], i[2], i[3])
-                elif i.len() == 5:
-                    i[0](i[1], i[2], i[3], i[4])
-            else:
-                i()
-    
-    janelaConf = Tk()
-    janelaConf.title('Deu certo?')
-    janelaConf.geometry('350x200')
-    botaoConf = Button(janelaConf,text='Exito', command=botaoConfirmado)
-    botaoConf.place(x=50,y=50)
-    botaoRep = Button(janelaConf, text='Repete processo', command=botaoRepete)
-    botaoRep.place(x=100,y=50)
-    janelaConf.mainloop()
-    time.sleep(tempo)
-
 pat.PAUSE = 0.5
 pat.MINIMUM_DURATION = 0.25
 
 dataParaSalvamento = time.strftime("%d %m %Y", time.localtime())
+
+cord = {'cigo atalho':(46,351), # Cigo - Atalho 
+        'pesq item 4 cat':(793,198), # Dentro do pesquisa item, selecionar categoria da quarta pesquisa
+        'cod. ref pesq item 4 cat':(754,284), # Selecionar 'Cod. ref' no item anterior
+        'lupa pesq item':(937,211), # Lupa de pesquisa no pesquisa item
+        'itens pesq item':(921,449), # Janela de itens depois de busca
+        'min area rem':(1209,14), # Minimizar Área Remota
+        'prod 4 cat':(780,201), # Dentro do Produto, selecionar categoria na quarta pesquisa
+        'cod. ref prod 4 cat':(741,304), # Selecionar 'Cod. ref' no item anterior
+        'lupa prod':(917,206), # Lupa de pesquisa no produto
+        'empr prod':(453,938), # Selecionar empresa produto dentro de produto, depois de item pesquisado
+        'alt empr prod':(119,994), # Alterar empresa produto 
+        'grup alt empr prod':(270,322), # Alterando empresa produto, grupo
+        'cancel alt empr prod':(50,293), # Cancelar, dentro de alterar empresa produto
+        'adic empr prod':(119,970) # Adicionar empresa produto
+        }
 
 empr = {
     'elm' : 'ELMINIO',
@@ -117,6 +102,7 @@ def exportandoParaExcel():
     pat.moveTo(cord['itens pesq item'])
     time.sleep(7)
     pat.click(button='right')
+    time.sleep(1)
     pat.press('x')
     time.sleep(12)
 
@@ -133,12 +119,15 @@ def copiandoArquivoExcel():
     pat.press('c')
     pat.keyUp('ctrl')
 
-def colandoExcelEmTrabalhoLoja(grupo):
+def colandoExcelEmTrabalhoLoja(grupo, arquivo):
     pat.moveTo(cord['min area rem'])
     pat.click()
     pat.press('win')
-    pat.write('TRABALHO LOJA')
+    time.sleep(0.75)
+    pat.write('Planilhas Sincronizando Cadastros')
     pat.press('enter')
+    if path.isfile(arquivo):
+        remove(arquivo)
     time.sleep(2)
     pat.press('down')
     pat.hotkey('ctrl', 'v')
@@ -163,7 +152,7 @@ def pesquisandoEmProduto(ref,pesquisa):
     pat.moveTo(cord['lupa prod']) # movendo para lupa
     if pesquisa == True:
         pat.click()
-        time.sleep(1)
+        time.sleep(4)
 
 def cadastroEmpresaProduto(empresa):
     # copiando grupo de empresa já cadastrada
@@ -174,14 +163,16 @@ def cadastroEmpresaProduto(empresa):
     time.sleep(4)
     pat.moveTo(cord['grup alt empr prod']) # selecionando grupo, dentro de alteração empresa produto
     pat.click()
-    time.sleep(3)
+    time.sleep(4)
+    pat.click()
+    time.sleep(1)
     pat.keyDown('ctrl') # copiando grupo do produto para novo cadastro
-    pat.press('c', presses=3, interval=0.3)
+    pat.press('c', presses=3, interval=1)
     pat.keyUp('ctrl')
     pat.moveTo(cord['cancel alt empr prod']) # selecionando cancelar, dentro de alteração empresa produto
-    time.sleep(2)
+    time.sleep(1.3)
     pat.click()
-    time.sleep(2)
+    time.sleep(1.3)
     pat.press('n')
     time.sleep(1)
 
