@@ -6,10 +6,9 @@ from os import kill, path, remove # biblioteca para comandos do sistema
 import psutil as ps # biblioteca para processos do sistema
 import signal # biblioteca para encerrar processos
 import pandas as pd
-from IPython.display import display # biblioteca com display para data fremes do pandas
 
-import PosicoesEmpresa # para importar as posições de ponteiro no computador da empresa
-#import PosicoesParticular # para importar as posições de ponteiro no computador particular
+from PosicoesEmpresa import cord # para importar as posições de ponteiro no computador da empresa
+#from PosicoesParticular import cord # para importar as posições de ponteiro no computador particular
 
 def pidAreaRemota():
     for proc in ps.process_iter(): # Armazenando pid da área de trabalho remota no pidArea
